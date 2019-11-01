@@ -4,33 +4,46 @@ user.sync();
 
 module.exports = {
   signup: function(data) {
-    const {
-      email,
-      password,
-      username,
-      location,
-      category,
-      term,
-      difficulty,
-      labor
-    } = data;
+    const { email, password, username, location, category, term, difficulty, labor } = data;
+    console.log(data);
     return new Promise((resolve, reject) => {
       user
         .create({
           username,
           password,
           email,
-          location
+          location,
+          category,
+          term,
+          difficulty,
+          labor
         })
-        .then(data => {
+        .then(() => {
           return resolve("ok");
         })
         .catch(err => {
+          console.log(err);
           return reject(err);
         });
     });
   },
-  signin: function() {
-    return user.findAll().then(data => data[0].dataValues);
+  signin: function(userinfo) {
+    return (
+      user
+        .findOne({
+          where: {
+            email: userinfo.email,
+            password: userinfo.password
+          }
+        })
+        // .then(data => data[0].dataValues);
+        .then(data => {
+          if (data) {
+            return true;
+          } else {
+            return false;
+          }
+        })
+    );
   }
 };
