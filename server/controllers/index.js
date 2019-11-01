@@ -1,9 +1,10 @@
-const models = require("../models/usermodel");
+const Uermodels = require("../models/usermodel");
+const cropmodels = require("../models/cropmodel");
 //jwt 토큰 가져오기
 module.exports = {
   signup: async function (req, res) {
     try {
-      await models.signup(req.body);
+      await Uermodels.signup(req.body);
       res.sendStatus(201);
       //redirect(홈페이지로...)
     } catch (err) {
@@ -11,13 +12,14 @@ module.exports = {
     }
   },
   signin: async function (req, res) {
-    let result = await models.signin();
+    let result = await Uermodels.signin();
   },
   signout: function (req, res) {
     //destory();
     //로그아웃
   },
-  reco: function (req, res) {
-    //추천 작물 가져오기
+  reco: async function (req, res) {
+    let recoCrops = await cropmodels.reco("fdfs");
+    console.log("reco", recoCrops);
   }
 };
