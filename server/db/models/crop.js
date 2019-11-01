@@ -47,7 +47,9 @@ module.exports = function(sequelize, DataTypes) {
         allowNull: true
       }
     },
-    {}
+    (crop.associate = function(modles) {
+      crop.belongsToMany(modles.user, { through: "user_crop" });
+    })
   );
   return crop;
 };
