@@ -1,36 +1,23 @@
-const user = require("../db/models/index").User;
+const models = require("../models/usermodel");
 //jwt 토큰 가져오기
-user.sync();
 module.exports = {
-  singup: function(req, res) {
-    const {
-      email,
-      password,
-      username,
-      location,
-      category,
-      term,
-      difficulty,
-      labor
-    } = req.body;
-    user
-      .create({
-        username,
-        password,
-        email,
-        location,
-        category,
-        term,
-        difficulty,
-        labor
-      })
-      .then(data => {
-        console.log("들어갔다", data);
-        res.sendStatus(200);
-      });
+  signup: async function (req, res) {
+    try {
+      await models.signup(req.body);
+      res.sendStatus(201);
+      //redirect(홈페이지로...)
+    } catch (err) {
+      res.sendStatus(500)
+    }
   },
-  signin: function(req, res) {
-    //로그인 ....
+  signin: async function (req, res) {
+    let result = await models.signin();
   },
-  signout: function(req, res) {}
+  signout: function (req, res) {
+    //destory();
+    //로그아웃
+  },
+  reco: function (req, res) {
+    //추천 작물 가져오기
+  }
 };
