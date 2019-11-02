@@ -6,7 +6,7 @@ var parser = require("body-parser");
 
 // Router
 var userrouter = require("./userroutes.js");
-// var croprouter = require("./croproutes.js");
+var croprouter = require("./croproutes.js");
 
 var app = express();
 module.exports.app = app;
@@ -20,7 +20,7 @@ app.use(parser.json());
 
 // Set up our routes
 app.use("/user", userrouter);
-// app.use("/crop", croprouter);
+app.use("/crop", croprouter);
 
 // Serve the client files
 // app.use(express.static(__dirname + "/../client"));

@@ -33,8 +33,8 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     }
   });
-  user.associate = function(modles) {
-    user.belongsToMany(modles.crop, { through: "user_crop" });
-  };
+  // user.associate = function(models) {
+  //   user.belongsToMany(models.crop, { through: "user_crop" });
+  // };
   return user;
 };

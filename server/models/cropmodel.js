@@ -5,23 +5,23 @@ crop.sync();
 user.sync();
 
 module.exports = {
-  reco: function(userEmail) {
-    user
+  reco: async function(userEmail) {
+    return user
       .findOne({
         where: { email: userEmail }
       })
       .then(data => {
         var UserLocation = data.dataValues.location;
-        crop
+        return crop
           .findAll({
             where: { location: UserLocation }
           })
           .then(data => {
-            let reuslt = [];
+            let result = [];
             for (let i in data) {
-              reuslt.push(data[i].dataValues);
+              result.push(data[i].dataValues);
             }
-            return reuslt;
+            return result;
           });
       })
       .catch(err => console.log(err));

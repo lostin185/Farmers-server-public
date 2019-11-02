@@ -42,7 +42,8 @@ module.exports = {
     });
   },
   reco: async function(req, res) {
-    let recoCrops = await cropmodels.reco("fdfs");
-    console.log("reco", recoCrops);
+    let recoCrops = await cropmodels.reco("sop11@email.com");
+    console.log("결과: ", recoCrops);
+    res.sendStatus(200);
   }
 };
