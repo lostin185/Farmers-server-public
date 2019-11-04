@@ -4,7 +4,16 @@ user.sync();
 
 module.exports = {
   signup: function(data) {
-    const { email, password, username, location, category, term, difficulty, labor } = data;
+    const {
+      email,
+      password,
+      username,
+      location,
+      category,
+      term,
+      difficulty,
+      labor
+    } = data;
     console.log(data);
     return new Promise((resolve, reject) => {
       user
@@ -28,7 +37,7 @@ module.exports = {
     });
   },
   signin: function(userinfo) {
-    return (
+    return new Promise((resolve, reject) => {
       user
         .findOne({
           where: {
@@ -39,11 +48,11 @@ module.exports = {
         // .then(data => data[0].dataValues);
         .then(data => {
           if (data) {
-            return true;
+            return resolve(true);
           } else {
-            return false;
+            return reject(false);
           }
-        })
-    );
+        });
+    });
   }
 };
