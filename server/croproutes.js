@@ -1,8 +1,6 @@
 var controller = require("./controllers");
 var router = require("express").Router();
-var cors = require("cors");
 
-router.use(cors());
 
 // function verifyToken(req, res, next) {
 //   // Get auth header value
