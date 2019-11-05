@@ -7,8 +7,8 @@ module.exports = {
   signup: async function(req, res) {
     try {
       await usermodels.signup(req.body);
-      res.sendStatus(201).redirect(req.originalUrl /*+ login url*/);
-      //redirect(홈페이지로...)
+      res.sendStatus(201);
+      // .redirect(req.originalUrl /*+ login url*/); 홈페이지 리다이렉트
     } catch (err) {
       res.sendStatus(500);
     }
