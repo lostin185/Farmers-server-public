@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 //jwt 토큰 가져오기
 module.exports = {
-  signup: async function(req, res) {
+  signup: async function (req, res) {
     try {
       await usermodels.signup(req.body);
       res.sendStatus(201);
@@ -13,7 +13,7 @@ module.exports = {
       res.sendStatus(500);
     }
   },
-  signin: async function(req, res) {
+  signin: async function (req, res) {
     try {
       let signinData = {
         email: req.body.email,
@@ -24,6 +24,7 @@ module.exports = {
 
       if (equality) {
         jwt.sign(signinData, "secretkey", { expiresIn: "1h" }, (err, token) => {
+          console.log("로그인 성공");
           res.status(200).json({ token });
         });
       }
@@ -31,7 +32,7 @@ module.exports = {
       res.sendStatus(500);
     }
   },
-  signout: function(req, res) {
+  signout: function (req, res) {
     jwt.verify(req.token, "secretkey", (err, authData) => {
       if (err) {
         res.sendStatus(500);
@@ -41,9 +42,15 @@ module.exports = {
       }
     });
   },
-  reco: async function(req, res) {
-    let recoCrops = await cropmodels.reco("sop11@email.com");
-    console.log("결과: ", recoCrops);
-    res.sendStatus(200);
+  reco: async function (req, res) {
+    //request요청 header에 들어있는 토큰을 가져오기
+    let recoCrops = await cropmodels.reco("swerty14@naver.com");
+    if (recoCrops) {
+      console.log("추천작물 성공");
+      res.status(200);
+      res.send(JSON.stringify(recoCrops));
+    } else {
+      res.sendStatus(500);
+    }
   }
-};
+}
