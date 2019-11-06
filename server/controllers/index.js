@@ -5,10 +5,19 @@ const jwt = require("jsonwebtoken");
 //jwt 토큰 가져오기
 module.exports = {
   signup: async function (req, res) {
+    console.log("req.body", req.body)
     try {
-      await usermodels.signup(req.body);
-      res.sendStatus(201);
-      // .redirect(req.originalUrl /*+ login url*/); 홈페이지 리다이렉트
+      let userSignup = await usermodels.signup(req.body);
+      console.log(
+        "userSignup", userSignup
+      )
+      if (userSignup === "success") {
+        res.status(201);
+        res.send({ success: true });
+      } else if (userSignup === "fail") {
+        res.status(201);
+        res.send(JSON.stringify({ success: false }));
+      }
     } catch (err) {
       res.sendStatus(500);
     }
@@ -19,9 +28,7 @@ module.exports = {
         email: req.body.email,
         password: req.body.password
       };
-
       let equality = await usermodels.signin(signinData);
-
       if (equality) {
         jwt.sign(signinData, "secretkey", { expiresIn: "1h" }, (err, token) => {
           console.log("로그인 성공");
