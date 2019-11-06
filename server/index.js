@@ -17,7 +17,12 @@ module.exports.app = app;
 app.set("port", 3000);
 
 // Cors
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true
+  })
+);
 
 // Logging and parsing
 app.use(morgan("dev"));
