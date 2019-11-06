@@ -4,25 +4,41 @@ user.sync();
 
 module.exports = {
   signup: function(data) {
-    const { email, password, username, location, category, term, difficulty, labor } = data;
-    console.log(data);
+    const {
+      email,
+      password,
+      username,
+      location,
+      category,
+      term,
+      difficulty,
+      labor
+    } = data;
     return new Promise((resolve, reject) => {
       user
-        .create({
-          username,
-          password,
-          email,
-          location,
-          category,
-          term,
-          difficulty,
-          labor
+        .findOrCreate({
+          where: { email: email },
+          defaults: {
+            email,
+            password,
+            username,
+            location,
+            category,
+            term,
+            difficulty,
+            labor
+          }
         })
-        .then(() => {
-          return resolve("ok");
+        .spread((memo, created) => {
+          if (created) {
+            console.log("new Memo: ", memo.dataValues);
+            return resolve("success");
+          } else {
+            console.log("new Memo: ", memo.dataValues);
+            return resolve("fail");
+          }
         })
         .catch(err => {
-          console.log(err);
           return reject(err);
         });
     });
