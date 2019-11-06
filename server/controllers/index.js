@@ -30,10 +30,26 @@ module.exports = {
       };
       let equality = await usermodels.signin(signinData);
       if (equality) {
-        jwt.sign(signinData, "secretkey", { expiresIn: "1h" }, (err, token) => {
-          console.log("로그인 성공");
-          res.status(200).json({ token });
-        });
+        jwt.sign({ signinData }, "secretkey", { expiresIn: "30s" }, (err, token) => {
+          return new Promise((resolve, reject) => {
+            if (err) {
+              return reject(err);
+            }
+            else {
+              return resolve(token);
+            }
+          }).then(data => {
+            // setCookie('token', data, 1);
+            console.log("data::::", data)
+            res.cookie("token", data)
+            console.log("make cookie!");
+            res.sendStatus(200);
+          }).catch(err => {
+            if (err) {
+              res.sendStatus(500);
+            }
+          })
+        })
       }
     } catch (err) {
       res.sendStatus(500);
