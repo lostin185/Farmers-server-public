@@ -41,7 +41,7 @@ module.exports = {
           }).then(data => {
             // setCookie('token', data, 1);
             console.log("data::::", data)
-            res.cookie("token", data)
+            res.cookie("token", data, { httpOnly: true })
             console.log("make cookie!");
             res.sendStatus(200);
           }).catch(err => {
