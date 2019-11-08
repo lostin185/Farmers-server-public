@@ -1,18 +1,19 @@
 // Express
-var express = require("express");
+const express = require("express");
 
 // Middleware
-var morgan = require("morgan");
-var parser = require("body-parser");
-var cors = require("cors");
-var session = require("express-session");
+const morgan = require("morgan");
+const parser = require("body-parser");
+const cors = require("cors");
+const session = require("express-session");
 
 // Router
-var userrouter = require("./userroutes.js");
-var croprouter = require("./croproutes.js");
+const userRouter = require("./userroutes.js");
+const cropRouter = require("./croproutes.js");
+const searchRouter = require("./searchroutes.js");
 
 // Execution
-var app = express();
+const app = express();
 module.exports.app = app;
 
 app.set("port", 5000);
@@ -47,8 +48,9 @@ const options = { etag: false };
 app.use(express.static("public", options));
 
 // Set up our routes
-app.use("/user", userrouter);
-app.use("/crop", croprouter);
+app.use("/user", userRouter);
+app.use("/crop", cropRouter);
+app.use("/search", searchRouter);
 
 // If we are being run directly, run the server.
 if (!module.parent) {

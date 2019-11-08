@@ -3,17 +3,26 @@ const user = require("../db/models/index").User;
 
 crop.sync();
 user.sync();
+
 module.exports = {
   reco: async function (userEmail) {
     return user
       .findOne({
+        attributes: ["location", "category", "term", "difficulty", "labor"],
         where: { email: userEmail }
       })
       .then(data => {
-        var UserLocation = data.dataValues.location;
+        const { location, category, term, difficulty, labor } = data.dataValues;
         return crop
           .findAll({
-            where: { location: UserLocation }
+            where:
+            {
+              location,
+              category,
+              term,
+              difficulty,
+              labor
+            }
           })
           .then(data => {
             let result = [];
@@ -43,6 +52,17 @@ module.exports = {
       else {
         reject(trafficLight);
       }
+    })
+  },
+  search: function (cropName) {
+    return new Promise((resolve, reject) => {
+      crop.findOne({
+        where: { cropname: cropName }
+      }).then(data => {
+        return resolve(data.dataValues);
+      }).catch(err => {
+        return reject(err);
+      })
     })
   }
 }

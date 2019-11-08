@@ -95,16 +95,25 @@ module.exports = {
   temp: async function (req, res) {
     const email = req.session.email;
     const { temp } = req.params;
-    console.log("erere", email);
-    console.log("temp", temp);
+    console.log("re", temp);
     try {
       let recoCrops = await cropmodels.reco(email);
-      let trafficLight = await cropmodels.level(recoCrops[0]["mintemp"], recoCrops[0]["maxtemp"], temp)
-      console.log("sdasdasdasdasd", trafficLight);
+      let trafficLight = await cropmodels.level(recoCrops[48]["mintemp"], recoCrops[48]["maxtemp"], temp)
       res.status(200)
       res.send(JSON.stringify(trafficLight));
     }
     catch (err) {
+      res.sendStatus(500);
+    }
+  },
+  search: async function (req, res) {
+    const { cropName } = req.params;
+    console.log(cropName);
+    try {
+      const cropInfo = await cropmodels.search(cropName);
+      res.status(200);
+      res.send(JSON.stringify(cropInfo))
+    } catch{
       res.sendStatus(500);
     }
   }
