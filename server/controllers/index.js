@@ -3,7 +3,7 @@ const cropmodels = require("../models/cropmodel");
 // const jwt = require("jsonwebtoken");
 
 module.exports = {
-  signup: async function(req, res) {
+  signup: async function (req, res) {
     try {
       let userSignup = await usermodels.signup(req.body);
       if (userSignup === "success") {
@@ -17,7 +17,7 @@ module.exports = {
       res.sendStatus(500);
     }
   },
-  signin: async function(req, res) {
+  signin: async function (req, res) {
     try {
       let signinData = {
         email: req.body.email,
@@ -58,11 +58,11 @@ module.exports = {
       res.sendStatus(500);
     }
   },
-  signout: function(req, res) {
+  signout: function (req, res) {
     // session
     var sess = req.session;
     if (sess.email) {
-      req.session.destroy(function(err) {
+      req.session.destroy(function (err) {
         if (err) {
           res.sendStatus(500);
         } else {
@@ -83,12 +83,37 @@ module.exports = {
     //   }
     // });
   },
-  reco: async function(req, res) {
+  reco: async function (req, res) {
     let recoCrops = await cropmodels.reco(req.session.email);
     if (recoCrops) {
       res.status(200);
       res.send(JSON.stringify(recoCrops));
     } else {
+      res.sendStatus(500);
+    }
+  },
+  temp: async function (req, res) {
+    const email = req.session.email;
+    const { temp } = req.params;
+    console.log("re", temp);
+    try {
+      let recoCrops = await cropmodels.reco(email);
+      let trafficLight = await cropmodels.level(recoCrops[48]["mintemp"], recoCrops[48]["maxtemp"], temp)
+      res.status(200)
+      res.send(JSON.stringify(trafficLight));
+    }
+    catch (err) {
+      res.sendStatus(500);
+    }
+  },
+  search: async function (req, res) {
+    const { cropName } = req.params;
+    console.log(cropName);
+    try {
+      const cropInfo = await cropmodels.search(cropName);
+      res.status(200);
+      res.send(JSON.stringify(cropInfo))
+    } catch{
       res.sendStatus(500);
     }
   }

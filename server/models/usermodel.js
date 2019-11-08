@@ -4,7 +4,16 @@ user.sync();
 
 module.exports = {
   signup: function(data) {
-    const { email, password, username, location, category, term, difficulty, labor } = data;
+    const {
+      email,
+      password,
+      username,
+      location,
+      category,
+      term,
+      difficulty,
+      labor
+    } = data;
     return new Promise((resolve, reject) => {
       user
         .findOrCreate({
