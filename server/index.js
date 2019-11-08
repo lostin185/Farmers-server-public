@@ -5,6 +5,7 @@ var express = require("express");
 var morgan = require("morgan");
 var parser = require("body-parser");
 var cors = require("cors");
+var session = require("express-session");
 
 // Router
 var userrouter = require("./userroutes.js");
@@ -14,13 +15,23 @@ var croprouter = require("./croproutes.js");
 var app = express();
 module.exports.app = app;
 
-app.set("port", 3000);
+app.set("port", 5000);
 
 // Cors
 app.use(
   cors({
     origin: "http://localhost:3000",
     credentials: true
+  })
+);
+
+// use session
+app.use(
+  session({
+    secret: "secretkey",
+    resave: true,
+    saveUninitialized: true,
+    maxAge: 20000
   })
 );
 
