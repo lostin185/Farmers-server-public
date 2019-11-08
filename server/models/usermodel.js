@@ -4,16 +4,7 @@ user.sync();
 
 module.exports = {
   signup: function(data) {
-    const {
-      email,
-      password,
-      username,
-      location,
-      category,
-      term,
-      difficulty,
-      labor
-    } = data;
+    const { email, password, username, location, category, term, difficulty, labor } = data;
     return new Promise((resolve, reject) => {
       user
         .findOrCreate({
@@ -31,10 +22,8 @@ module.exports = {
         })
         .spread((memo, created) => {
           if (created) {
-            console.log("new Memo: ", memo.dataValues);
             return resolve("success");
           } else {
-            console.log("new Memo: ", memo.dataValues);
             return resolve("fail");
           }
         })
