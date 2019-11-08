@@ -39,6 +39,13 @@ app.use(
 app.use(morgan("dev"));
 app.use(parser.json());
 
+// no etag - when dynamic
+app.set("etag", false);
+
+// no etag - when static
+const options = { etag: false };
+app.use(express.static("public", options));
+
 // Set up our routes
 app.use("/user", userrouter);
 app.use("/crop", croprouter);

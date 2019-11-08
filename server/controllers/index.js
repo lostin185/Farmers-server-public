@@ -64,7 +64,7 @@ module.exports = {
     if (sess.email) {
       req.session.destroy(function(err) {
         if (err) {
-          console.log(err);
+          console.log("error in signout controller: ", err);
         } else {
           res.sendStatus(200);
         }
@@ -84,10 +84,11 @@ module.exports = {
     // });
   },
   reco: async function(req, res) {
-    let recoCrops = await cropmodels.reco("swerty14@naver.com");
+    let recoCrops = await cropmodels.reco(req.session.email);
     if (recoCrops) {
       console.log("추천작물 성공");
       res.status(200);
+      console.log(recoCrops);
       res.send(JSON.stringify(recoCrops));
     } else {
       res.sendStatus(500);
