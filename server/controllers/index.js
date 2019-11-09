@@ -8,7 +8,7 @@ module.exports = {
       let userSignup = await usermodels.signup(req.body);
       if (userSignup === "success") {
         res.status(201);
-        res.send({ success: true });
+        res.send(JSON.stringify({ success: true }));
       } else if (userSignup === "fail") {
         res.status(201);
         res.send(JSON.stringify({ success: false }));
@@ -84,6 +84,7 @@ module.exports = {
     // });
   },
   reco: async function (req, res) {
+    console.log(req.session.email);
     let recoCrops = await cropmodels.reco(req.session.email);
     if (recoCrops) {
       res.status(200);
@@ -108,7 +109,7 @@ module.exports = {
   },
   search: async function (req, res) {
     const { cropName } = req.params;
-    console.log(cropName);
+    console.log("crop", cropName);
     try {
       const cropInfo = await cropmodels.search(cropName);
       res.status(200);
